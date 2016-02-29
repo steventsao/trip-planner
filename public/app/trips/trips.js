@@ -97,7 +97,7 @@ angular.module('app.trips', [])
   /*
     finds and removes a trip  
   */
-  $scope.removeTrip = function(trip) { /
+  $scope.removeTrip = function(trip) {
     Trips.removeTrip(trip)
       .then(function(data) {});
     $route.reload();
