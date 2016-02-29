@@ -7,13 +7,12 @@ angular.module('app.my-trip', [])
   $scope.geocoder = new google.maps.Geocoder();
   $scope.destination;
   $scope.marker = null;
-  // map markers
-  $scope.currentMarkers = [];
-  // marker data from Yelp
-  $scope.currentMarkerData = [];
+  $scope.currentMarkers = []; // map markers
+  $scope.currentMarkerData = []; // marker data from Yelp
   $scope.buttonTitle = 'hotel';
   $scope.nextQuestion;
   $scope.addedPOIS;
+  $scope.editedSights = null;
   /* reqests information about the current trip from the Trips factory */
   // $scope.questions = questionBank['hotel'].question;
   var tripData = {
@@ -22,13 +21,6 @@ angular.module('app.my-trip', [])
     transportation: null, 
   }
 
-
-  // var displayQuestion = function(type) {
-  //   $scope.questions = questionBank[type].question;
-  //   $('#questionsID').scope().$apply()
-  // }
-
-  // var userCoordinates;
   var createContent = function(info) {
     var string = '';
     if (info.POI.length > 0) {
@@ -68,18 +60,6 @@ angular.module('app.my-trip', [])
     // start in USA
     center: new google.maps.LatLng(37.09024, -95.712891),
     zoom: 5
-  };
-
-  $scope.next = function() {
-    clearMarkers();
-  $scope.nextQuestion = Object.keys(questionBank)[Object.keys(questionBank).indexOf($scope.buttonTitle)+1];
-
-    searchNearby({
-      location: $scope.thisTrip.coordinates,
-      radius: '5000',
-      types: [$scope.nextQuestion],
-      buttonTitle: $scope.nextQuestion
-    });
   };
 
   $scope.openTab = function(url) {
@@ -192,75 +172,6 @@ angular.module('app.my-trip', [])
     });
   };
 
-  var searchNearby = function (request) {
-    clearMarkers();
-
-    var service = new google.maps.places.PlacesService($scope.map);
-    service.nearbySearch(request, function (results) {
-      // console.log(results);
-      results.forEach(function (point) {
-        // console.log(point);
-        var marker = new google.maps.Marker({
-          map: $scope.map,
-          position: point.geometry.location,
-          icon: {
-            url: point.icon,
-            scaledSize: new google.maps.Size(25,25)
-          },
-          animation: google.maps.Animation.DROP,
-          place_id: point.place_id,
-        });
-        $scope.currentMarkerData.push({
-          // image_url: point.photos[0].getUrl(),
-          name: point.name,
-          selected: false,
-          image_url: null,
-          url: null,
-          location: {
-            address: null,
-          }
-        });
-        $('#poiList').scope().$apply();
-        
-
-        // console.log($scope.currentMarkerData);
-        
-        $scope.currentMarkers.push(marker);
-        var contentStr = point.name + 
-            '<br><button id='+point.place_id+
-            '>Select ' + request.buttonTitle + '</button>';
-
-        assignInfoWindow(marker, contentStr);
-
-        google.maps.event.addListener(infowindow, 'domready', function () {
-          $('#' + point.place_id).click(function () {
-            $scope.buttonTitle = request.buttonTitle;
-            
-            questionBank[$scope.buttonTitle].answer = point;
-            displayQuestion($scope.nextQuestion);
-
-            if ($scope.nextQuestion !== 'hasBeenCalled') {
-              $scope.showQuestion = false;
-
-              searchNearby({
-                location: $scope.thisTrip.coordinates,
-                radius: '5000',
-                types: [$scope.nextQuestion],
-                buttonTitle: $scope.nextQuestion
-              });
-            } else {
-              console.log('there are no more questions');
-              clearMarkers();
-            }
-          });
-        });
-
-        $scope.map.setZoom(12);
-        $scope.map.panTo(request.location)
-      });
-    });
-  };
-
     // Enables drawing on map
   var drawingManager = new google.maps.drawing.DrawingManager({
     drawingMode: null,
@@ -291,20 +202,6 @@ angular.module('app.my-trip', [])
     });
 
   };  
-
-  // $scope.quickAdd = function () {
-  //   $scope.showQuestion = true;
-  //   if (!questionBank.hasBeenCalled) {
-  //     searchNearby({
-  //       location: $scope.thisTrip.coordinates,
-  //       radius: '5000',
-  //       types: ['lodging'],
-  //       buttonTitle: 'hotel',
-  //     });
-  //     questionBank.hasBeenCalled = true;
-  //   }
-  // };
-
 
 
   google.maps.event.addListener(drawingManager, 'polylinecomplete', function(event) {
@@ -388,8 +285,6 @@ angular.module('app.my-trip', [])
     Auth.signout();
   };
 
-  $scope.editedSights = null;
-
   $scope.newSights = function (){ 
     $scope.Sights.push({name:"new record"});
   };
@@ -402,7 +297,6 @@ angular.module('app.my-trip', [])
   };
       
   $scope.doneEditing = function (Sights){
-    
     Sights.editing=false;
     $scope.editedSights = null;
   };

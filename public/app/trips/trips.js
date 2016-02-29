@@ -51,6 +51,7 @@ angular.module('app.trips', [])
       }
 
     });
+
     var infowindow = new google.maps.InfoWindow({
       content: '<a href="#/my-trip/' + info._id + '">' + info.destination + '</a><br>' +
         createContent(info),
@@ -80,28 +81,31 @@ angular.module('app.trips', [])
 
   $scope.showTripsOnMap(Trips.user);
 
+  /* 
+    specifications for map created directly below
+  */
   var mapOptions = {
-
-    // start in USA
-    center: new google.maps.LatLng(37.09024, -95.712891),
+    center: new google.maps.LatLng(37.09024, -95.712891),  // defaults map view in USA
     zoom: 5
   };
 
-  // create map
+  /* creates map where trip markers are rendered 
+     to specifications laid out in mapOptions above 
+  */
   $scope.map = new google.maps.Map(document.getElementById("mapDiv"), mapOptions);
 
-  //remove a trip
-  $scope.removeTrip = function(trip) {
-    //confirmation alert
-    if (confirm("Are you sure you want to remove this trip")) {
-      //code for deletion
-      Trips.removeTrip(trip)
-        .then(function(data) {});
-      $route.reload();
-    }
+  /*
+    finds and removes a trip  
+  */
+  $scope.removeTrip = function(trip) { /
+    Trips.removeTrip(trip)
+      .then(function(data) {});
+    $route.reload();
   };
 
-  //filter by previous trips
+  /* parses date value on trip in  user trips and filters by date, showing 
+     trips with dates BEFORE the current date
+  */
   $scope.previousTrips = function(tripDate) {
     var tripsDate = new Date(tripDate);
     var day = tripsDate.getDate();
@@ -120,7 +124,9 @@ angular.module('app.trips', [])
     }
   };
 
-  //filter by upcoming trips
+  /* parses date value on trip in  user trips and filters by date, showing 
+     trips with dates AFTER the current date
+  */
   $scope.upcomingTrips = function(tripDate) {
     if (tripDate === undefined) {
       tripDate = new Date();
@@ -142,6 +148,7 @@ angular.module('app.trips', [])
     }
   };
 
+    /* called from logout button in menu bar for auth pages */
   $scope.signout = function() {
     Auth.signout();
   };

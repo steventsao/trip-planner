@@ -224,7 +224,7 @@ angular.module('app.services', [])
     return !!$window.localStorage.getItem('com.tp');
   };
 
-  /* removes token */
+  /* removes token, called from logout page */
   var signout = function() {
     $window.localStorage.removeItem('com.tp');
     $window.localStorage.removeItem('com.tp.user');
