@@ -379,7 +379,7 @@ angular.module('app.my-trip', [])
   $scope.triggerCheck = function (string, value) {
     Trips.addTrigger($scope.path, string, value)
       .then(function (data) {
-        $route.reload(); //reloads the page so you see the new sight you added
+        //$route.reload(); //reloads the page so you see the new sight you added
       });
   };
 
