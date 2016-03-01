@@ -16,12 +16,12 @@ angular.module('app.my-trip', [])
   $scope.addedPOIS;
   /* reqests information about the current trip from the Trips factory */
   // $scope.questions = questionBank['hotel'].question;
-
   var tripData = {
     hotelID: null,
     restaurants: [],
     transportation: null, 
   }
+
 
   // var displayQuestion = function(type) {
   //   $scope.questions = questionBank[type].question;
@@ -29,7 +29,6 @@ angular.module('app.my-trip', [])
   // }
 
   // var userCoordinates;
-
   var createContent = function(info) {
     var string = '';
     if (info.POI.length > 0) {
@@ -145,10 +144,13 @@ angular.module('app.my-trip', [])
   $scope.savePage = function () {
     $scope.currentMarkerData.forEach(function(poi, i){
       if (poi.selected) {
-        Trips.addPOI($scope.thisTrip._id, poi.name,
-              '<img src=' + poi.image_url + '>' +
-              '<a href='+poi.url+'>link/a><br>' +
-              poi.location.address);
+        console.log(poi)
+        Trips.addPOI($scope.thisTrip._id, poi.name,{
+          imgUrl: poi.image_url,
+          yelpUrl: poi.url,
+          address: poi.location.address,
+          notes: '',
+        });
         poi.selected = false;
       }
     });
@@ -395,7 +397,7 @@ angular.module('app.my-trip', [])
   $scope.startEditing = function (Sights){
     console.log('start editing');
     Sights.editing=true;
-    $scope.editedSights = Sights;
+    $scope.editedSights = Sights.details.notes;
     console.log(Sights, $scope.editedSights);
   };
       
