@@ -282,7 +282,7 @@ angular.module('app.my-trip', [])
     }
     Trips.searchOverlay(tenPoints) 
     .then(function(results) {
-      if (!results.data.businesses.length){ // if yelp returns no results, a materialize toast will display alert to user
+      if (!results.data.length){ // if yelp returns no results, a materialize toast will display alert to user
         Materialize.toast('no results found for this selection', 5000, 'rounded');
       }
       results.data.forEach(function(obj) {
