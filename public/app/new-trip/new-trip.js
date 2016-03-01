@@ -18,7 +18,7 @@ angular.module('app.new-trip', [])
 
   var mapOptions = {
     // start in USA
-    center: new google.maps.LatLng(37.09024, -95.712891),
+    center: new google.maps.LatLng(39.850033, -90.6500523),
     zoom: 5
   };
 

@@ -27,7 +27,7 @@ angular.module('app.my-trip', [])
     if (info.POI.length > 0) {
       info.POI.forEach(function(point) {
 
-        string += '<strong>' + (point.title ? point.title : '') + ':</strong> ' + (point.details ? point.details : '') + '<br>';
+        string += '<strong>' + (point.title ? point.title : '') + ':</strong> ' + (point.details.notes ? point.details.notes : point.details.address) + '<br>';
       });
     }
     return string;
@@ -53,8 +53,11 @@ angular.module('app.my-trip', [])
         createContent(info),
     });
 
-    marker.addListener('click', function() { // REFACTOR: is this used anymore???
+    marker.addListener('mouseover', function() {
       infowindow.open(marker.get('map'), marker);
+    });
+    marker.addListener('mouseout', function() {
+      infowindow.close();
     });
 
     $scope.map.setCenter(info.coordinates); // sets map center to trip coordinates
@@ -279,7 +282,7 @@ angular.module('app.my-trip', [])
     }
     Trips.searchOverlay(tenPoints) 
     .then(function(results) {
-      if (!results.data.businesses.length){ // if yelp returns no results, a materialize toast will display alert to user
+      if (!results.data.length){ // if yelp returns no results, a materialize toast will display alert to user
         Materialize.toast('no results found for this selection', 5000, 'rounded');
       }
       results.data.forEach(function(obj) {

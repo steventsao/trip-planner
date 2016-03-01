@@ -28,7 +28,7 @@ angular.module('app.trips', [])
     if (info.POI.length > 0) {
       info.POI.forEach(function(point) {
 
-        string += '<strong>' + (point.title ? point.title : '') + ':</strong> ' + (point.details ? point.details : '') + '<br>';
+        string += '<strong>' + (point.title ? point.title : '') + ':</strong> ' + (point.details.notes ? point.details.notes : point.details.address) + '<br>';
       });
     }
     return string;
@@ -85,8 +85,9 @@ angular.module('app.trips', [])
     specifications for map created directly below
   */
   var mapOptions = {
-    center: new google.maps.LatLng(37.09024, -95.712891),  // defaults map view to midwestern-USA
-    zoom: 5
+    // start in USA
+    center: new google.maps.LatLng(39.850033, -90.6500523),
+    zoom: 4
   };
 
   /* creates map where trip markers are rendered 
