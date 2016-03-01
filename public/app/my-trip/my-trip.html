@@ -19,6 +19,7 @@
     </ul>
   </div>
 </nav>
+
 <div class="container">
   <div class="row">
     <h2>My Trip to
@@ -77,8 +78,8 @@
           </div>
         </form>
       </div>
-    <!--Places to Visit-->
-     <div class="col s6">
+      <!--Places to Visit-->
+      <div class="col s6">
         <h4>See The Sights</h4>
         <form>
           <fieldset>
@@ -90,24 +91,22 @@
       </div>
     </div>
   </div>
-</div>
-<!-- Render all Points of Interest from the Trip Array -->
-<div class="row">
-  <div class="col s12 m6" ng-repeat="sight in thisTrip.POI">
-    <div class="card orange lighten-5" ng-dblclick="startEditing(sight);">
-      <div class="card-content black-text">
-        <img ng-src='{{sight.details.imgUrl}}'/>
-        <span ng-hide="sight.editing" class="card-title">{{sight.title}}</span><br>
-        <p ng-hide="sight.editing">{{sight.details.address[0]}}</p>
-        <h4 ng-hide="sight.editing" class="card-title">{{sight.details.notes}}</h4>
-        <a target="_blank" href="{{sight.details.yelpUrl}}">Yelp</a>
-        <form ng-show="sight.editing" ng-submit="sight.title">
-          <input ng-model="sight.title" ng-blur="doneEditing(sight)" ng-focus="sight == editedSight">
-          <input ng-model="sight.details.notes" ng-blur="doneEditing(sight)" ng-focus="sight == editedSight">
-        </form>
+  <!-- Render all Points of Interest from the Trip Array -->
+  <div class="row">
+    <div class="col s12 m6" ng-repeat="sight in thisTrip.POI">
+      <div class="card orange lighten-5" ng-dblclick="startEditing(sight);">
+        <div class="card-content black-text">
+          <img ng-src='{{sight.details.imgUrl}}'/>
+          <span ng-hide="sight.editing" class="card-title">{{sight.title}}</span><br>
+          <p ng-hide="sight.editing">{{sight.details.address[0]}}</p>
+          <h4 ng-hide="sight.editing" class="card-title">{{sight.details.notes}}</h4>
+          <a target="_blank" href="{{sight.details.yelpUrl}}">Yelp</a>
+          <form ng-show="sight.editing" ng-submit="sight.title">
+            <input ng-model="sight.title" ng-blur="doneEditing(sight)" ng-focus="sight == editedSight">
+            <input ng-model="sight.details.notes" ng-blur="doneEditing(sight)" ng-focus="sight == editedSight">
+          </form>
+        </div>
       </div>
     </div>
   </div>
-</div>
-</div>
 </div>
