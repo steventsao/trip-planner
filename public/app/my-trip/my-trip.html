@@ -63,33 +63,33 @@
   </div>
 </div>
 <div class="row">
-  <div class="col s8 offset-s2">
-    <h4>Pre-Trip ToDo List</h4>
-    <form name="checklist">
-      <div>
-        <input type="checkbox" id="isflying" ng-model="flying" ng-change="triggerCheck('flying', flying)" ng-checked="thisTrip.flying == true">
-        <label for="isflying">Are you flying?</label>
-        <input type="checkbox" id="isleavingCountry" ng-model="leavingCountry" ng-change="triggerCheck('leavingCountry', leavingCountry)" ng-checked="thisTrip.leavingCountry == true">
-        <label for="isleavingCountry">Are you leaving the country?</label>
-        <input type="checkbox" id="istravelingAlone" ng-model="travelingAlone" ng-change="triggerCheck('travelingAlone', travelingAlone)" ng-checked="thisTrip.travelingAlone == true">
-        <label for="istravelingAlone">Are you traveling with someone?</label>
-        <input type="checkbox" id="isaccomodations" ng-model="accomodations" ng-change="triggerCheck('accomodations', accomodations)" ng-checked="thisTrip.accomodations == true">
-        <label for="isaccomodations">Have you reserved accomodations?</label>
-      </div>
-    </form>
-  </div>
-</div>
-<!--Places to Visit-->
-<div class="row">
-  <div class="col s8 offset-s2">
-    <h4>See The Sights</h4>
-    <form>
-      <fieldset>
-        <input placeholder="Something To See" type="text" class="input-field" ng-model="POI_title">
-        <textarea class="materialize-textarea" placeholder="Some details..." ng-model="POI_details"></textarea>
-      </fieldset>
-      <button class="waves-effect waves-light btn amber darken-3" type="submit" ng-click="addPOI(POI_title, POI_details)">Add Event</button>
-    </form>
+  <div class="col s12">
+    <div class="col s6">
+      <h4>Pre-Trip ToDo List</h4>
+      <form name="checklist">
+        <div>
+          <input type="checkbox" id="isflying" ng-model="flying" ng-change="triggerCheck('flying', flying)" ng-checked="thisTrip.flying == true">
+          <label for="isflying">Are you flying?</label>
+          <input type="checkbox" id="isleavingCountry" ng-model="leavingCountry" ng-change="triggerCheck('leavingCountry', leavingCountry)" ng-checked="thisTrip.leavingCountry == true">
+          <label for="isleavingCountry">Are you leaving the country?</label>
+          <input type="checkbox" id="istravelingAlone" ng-model="travelingAlone" ng-change="triggerCheck('travelingAlone', travelingAlone)" ng-checked="thisTrip.travelingAlone == true">
+          <label for="istravelingAlone">Are you traveling with someone?</label>
+          <input type="checkbox" id="isaccomodations" ng-model="accomodations" ng-change="triggerCheck('accomodations', accomodations)" ng-checked="thisTrip.accomodations == true">
+          <label for="isaccomodations">Have you reserved accomodations?</label>
+        </div>
+      </form>
+    </div>
+  <!--Places to Visit-->
+   <div class="col s6">
+      <h4>See The Sights</h4>
+      <form>
+        <fieldset>
+          <input placeholder="Something To See" type="text" class="input-field" ng-model="POI_title">
+          <textarea class="materialize-textarea" placeholder="Some details..." ng-model="POI_details"></textarea>
+        </fieldset>
+        <button class="waves-effect waves-light btn amber darken-3" type="submit" ng-click="addPOI(POI_title, POI_details)">Add Event</button>
+      </form>
+    </div>
   </div>
 </div>
 <!-- Render all Points of Interest from the Trip Array -->
