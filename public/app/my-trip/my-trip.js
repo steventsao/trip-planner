@@ -279,7 +279,9 @@ angular.module('app.my-trip', [])
     }
     Trips.searchOverlay(tenPoints) 
     .then(function(results) {
-      console.log(results);
+      if (!results.data.businesses.length){ // if yelp returns no results, a materialize toast will display alert to user
+        Materialize.toast('no results found for this selection', 5000, 'rounded');
+      }
       results.data.forEach(function(obj) {
         yelpResults.push(obj.businesses[0]);
       });
@@ -304,7 +306,9 @@ angular.module('app.my-trip', [])
       });
     Trips.searchOverlay(rectCoordinates)
     .then(function(results) {
-      console.log(results);
+      if (!results.data.businesses.length){ // if yelp returns no results, a materialize toast will display alert to user
+        Materialize.toast('no results found for this selection', 5000, 'rounded');
+      }
       displayMarkersFromYelp(results.data.businesses);
     })
     .catch(function(err){
