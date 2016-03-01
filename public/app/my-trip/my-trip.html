@@ -97,11 +97,14 @@
   <div class="col s12 m6" ng-repeat="sight in thisTrip.POI">
     <div class="card orange lighten-5" ng-dblclick="startEditing(sight);">
       <div class="card-content black-text">
-        <span ng-hide="sight.editing" class="card-title">{{sight.title}}</span>
-        <p ng-hide="sight.editing">{{sight.details}}</p>
+        <img ng-src='{{sight.details.imgUrl}}'/>
+        <span ng-hide="sight.editing" class="card-title">{{sight.title}}</span><br>
+        <p ng-hide="sight.editing">{{sight.details.address[0]}}</p>
+        <h4 ng-hide="sight.editing" class="card-title">{{sight.details.notes}}</h4>
+        <a target="_blank" href="{{sight.details.yelpUrl}}">Yelp</a>
         <form ng-show="sight.editing" ng-submit="sight.title">
           <input ng-model="sight.title" ng-blur="doneEditing(sight)" ng-focus="sight == editedSight">
-          <input ng-model="sight.details" ng-blur="doneEditing(sight)" ng-focus="sight == editedSight">
+          <input ng-model="sight.details.notes" ng-blur="doneEditing(sight)" ng-focus="sight == editedSight">
         </form>
       </div>
     </div>

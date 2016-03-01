@@ -40,6 +40,7 @@ module.exports = {
 
   //adds a point of interest on the myTrip view
   modify: function(req, res) {
+    console.log(req.body);
     Trip.findOne({
       _id: req.body._id
     }, function(err, trip) {
