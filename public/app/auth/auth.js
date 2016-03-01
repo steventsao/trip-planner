@@ -49,7 +49,7 @@ angular.module('app.auth', [])
       });
   };
 
-  /* called from logout button in menu bar for auth pages */
+  /* called from logout button in menu bar (sitewide) */
   $scope.signout = function() {
     Auth.signout();
   };
