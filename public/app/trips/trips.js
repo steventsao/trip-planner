@@ -28,7 +28,7 @@ angular.module('app.trips', [])
     if (info.POI.length > 0) {
       info.POI.forEach(function(point) {
 
-        string += '<strong>' + (point.title ? point.title : '') + ':</strong> ' + (point.details ? point.details : '') + '<br>';
+        string += '<strong>' + (point.title ? point.title : '') + ':</strong> ' + (point.details.notes ? point.details.notes : point.details.address) + '<br>';
       });
     }
     return string;
