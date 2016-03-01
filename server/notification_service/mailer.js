@@ -5,7 +5,14 @@ var schedule = require('node-schedule');
 var mg = require('nodemailer-mailgun-transport');
 var config = require('./_config.js')
 
+/*
+  basic mailer features - needs expanding
+  bug-fixes
+*/
+
 module.exports = {
+
+  /* send email to users on signup */
   signupEmail: function(username, apiKey, domain){
     var auth = {
       auth: {
@@ -38,6 +45,9 @@ module.exports = {
     
   },
   
+  /* send email to users on signin 
+     REFACTOR: BUG, sends email, even when user does not successful login
+  */
   signinEmail: function(username,apikey,domain){
     
     var auth = {
@@ -71,6 +81,9 @@ module.exports = {
     
   },
   
+  /* send reminder email to users with upcoming trips with date within a certain 
+     number of days
+  */
   reminderEmail: function(username){
     var auth = {
       auth: {

@@ -48,6 +48,7 @@ angular.module('app.services', [])
      returns newly created trip
   */
   var newTrip = function(destination, startDate, coordinates) {
+    console.log(startDate);
     return $http({
         method: 'POST',
         url: '/api/trips/create',
@@ -80,6 +81,13 @@ angular.module('app.services', [])
       });
   };
 
+
+  /* requests attractions by query to yelp database
+     request defined by location and userInput
+
+     userInput - defines type of attraction to return from yelp (i.e. hotel, bar, tourist attraction)
+     location - defines center of search circle enclosed by search radius
+  */
   var requestAttractions = function (location, userInput) {
     return $http({
       method: 'GET',
@@ -90,6 +98,9 @@ angular.module('app.services', [])
     });
   };
 
+  /* search location defined by geometric space
+     drawn by user onto map
+  */
   var searchOverlay = function(location) {
     console.log(location.toString());
     return $http({
@@ -119,6 +130,10 @@ angular.module('app.services', [])
     });
   };
 
+
+  /* 
+    removes POI from trip
+  */
   var deletePOI = function(tripID, title, details) {
     var tripData = {
       _id: tripID,
@@ -259,6 +274,7 @@ angular.module('app.services', [])
       });
   };
 
+  /* returns user for profile page */
   var getUser = function() {
     return $http({
         method: 'GET',
