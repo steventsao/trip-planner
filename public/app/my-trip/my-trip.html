@@ -86,7 +86,7 @@
             <input placeholder="Something To See" type="text" class="input-field" ng-model="POI_title">
             <textarea class="materialize-textarea" placeholder="Some details..." ng-model="POI_details"></textarea>
           </fieldset>
-          <button class="waves-effect waves-light btn amber darken-3" type="submit" ng-click="addPOI(POI_title, POI_details)">Add Event</button>
+          <button class="waves-effect waves-light btn amber darken-3" type="submit" ng-click="addPOI(POI_title, {notes:POI_details})">Add Event</button>
         </form>
       </div>
     </div>
