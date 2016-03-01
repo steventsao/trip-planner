@@ -85,8 +85,9 @@ angular.module('app.trips', [])
     specifications for map created directly below
   */
   var mapOptions = {
-    center: new google.maps.LatLng(37.09024, -95.712891),  // defaults map view to midwestern-USA
-    zoom: 5
+    // start in USA
+    center: new google.maps.LatLng(39.850033, -90.6500523),
+    zoom: 4
   };
 
   /* creates map where trip markers are rendered 

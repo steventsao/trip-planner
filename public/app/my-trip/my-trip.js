@@ -27,7 +27,7 @@ angular.module('app.my-trip', [])
     if (info.POI.length > 0) {
       info.POI.forEach(function(point) {
 
-        string += '<strong>' + (point.title ? point.title : '') + ':</strong> ' + (point.details ? point.details : '') + '<br>';
+        string += '<strong>' + (point.title ? point.title : '') + ':</strong> ' + (point.details.notes ? point.details.notes : point.details.address) + '<br>';
       });
     }
     return string;
@@ -53,8 +53,11 @@ angular.module('app.my-trip', [])
         createContent(info),
     });
 
-    marker.addListener('click', function() { // REFACTOR: is this used anymore???
+    marker.addListener('mouseover', function() {
       infowindow.open(marker.get('map'), marker);
+    });
+    marker.addListener('mouseout', function() {
+      infowindow.close();
     });
 
     $scope.map.setCenter(info.coordinates); // sets map center to trip coordinates
