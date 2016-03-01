@@ -2,87 +2,100 @@ var nodemailer = require ('nodemailer');
 var sgTransport = require('nodemailer-sendgrid-transport');
 //var EmailTemplate = require('email-templates').Email.Template;
 var schedule = require('node-schedule');
+var mg = require('nodemailer-mailgun-transport');
+var config = require('./_config.js')
 
 module.exports = {
-  signupEmail: function(username){
-    var options = {
-      // auth: {
-      //   api_user: 
-      //   api_key: 
-      // }
-    };
+  signupEmail: function(username, apiKey, domain){
+    var auth = {
+      auth: {
+        api_key: config.API_KEY,
+        domain: config.DOMAIN
+      }
+    }
+    
+    var nodemailerMailgun = nodemailer.createTransport(mg(auth));
 
-    var mailer = nodemailer.createTransport(sgTransport(options));
-
-    var email = {
-      from: '"Marco Polo" <trip.planner.co@gmail.com>',
-      to: username,
-      subject: 'Welcome to Trip Planner',
-      text: 'Be prepared to get shit done so you can then relax and have some fun',
-      html: '<b>Be prepared to get shit done so you can then relax and have some fun</b>'
-    };
-
-    mailer.sendMail(email, function(err, res){
-        if (err ){
-          console.log(error);
-        }
-        else {
-          console.log('Message sent: ' , res);
-        }
+    nodemailerMailgun.sendMail({
+      from: config.FROM,
+      to: username, // An array if you have multiple recipients.
+      subject: 'Welcome to Trip Planner!!',
+      // 'h:Reply-To': 'reply2this@company.com',
+      // //You can use "html:" to send HTML email content. It's magic!
+      html: '<p>We hope to make your next vacation the best vacation.</p>',
+      //You can use "text:" to send plain-text content. It's oldschool!
+      text: 'Mailgun rocks, pow pow!'
+    }, function (err, info) {
+      if (err) {
+        console.log('Error: ' + err);
+      }
+      else {
+        console.log('Response: ' + info);
+      }
     });
+    
+    
+    
   },
   
-  signinEmail: function(username){
-    var options = {
+  signinEmail: function(username,apikey,domain){
+    
+    var auth = {
       auth: {
-        // api_user: 
-        // api_key: 
+        api_key: config.API_KEY,
+        domain: config.DOMAIN
       }
-    };
+    }
 
-    var mailer = nodemailer.createTransport(sgTransport(options));
+    var nodemailerMailgun = nodemailer.createTransport(mg(auth));
 
-    var email = {
-      from: '"Marco Polo" <trip.planner.co@gmail.com>',
-      to: username,
-      subject: 'Account Sign-in',
-      text: 'Someone signed into your Trip Planner account....hope it was you.',
-      html: '<b>Someone signed into your Trip Planner account....hope it was you.</b>'
-    };
-
-    mailer.sendMail(email, function(err, res){
-      if (err ){
-        console.log(error);
-      } else {
-        console.log('Message sent: ' , res);
+    nodemailerMailgun.sendMail({
+      from: config.FROM,
+      to: username, // An array if you have multiple recipients.
+      subject: 'Hey you!',
+      // 'h:Reply-To': 'reply2this@company.com',
+      // //You can use "html:" to send HTML email content. It's magic!
+      html: '<p>Looks like someone signed into your Trip Planner Account...<b>hope it was you...</b></p>',
+      //You can use "text:" to send plain-text content. It's oldschool!
+      text: 'Mailgun rocks, pow pow!'
+    }, function (err, info) {
+      if (err) {
+        console.log('Error: ' + err);
+      }
+      else {
+        console.log('Response: ' + info);
       }
     });
+    
+    
+    
   },
   
   reminderEmail: function(username){
-    var options = {
+    var auth = {
       auth: {
-        // api_user:
-        // api_key: 
+        api_key: config.API_KEY,
+        domain: config.DOMAIN
       }
-    };
+    }
 
-    var mailer = nodemailer.createTransport(sgTransport(options));
+    var nodemailerMailgun = nodemailer.createTransport(mg(auth));
 
-    var email = {
-      from: '"Marco Polo" <trip.planner.co@gmail.com>',
-      to: username,
-      subject: 'Reminder: Booking',
-      text: 'Get your things booked.',
-      html: '<b>Get your things booked.</b>'
-    };
-
-    console.log('look here', email.to)
-    mailer.sendMail(email, function(err, res){
-      if (err ){
-        console.log(error);
-      } else {
-        console.log('Message sent: ' , res);
+    nodemailerMailgun.sendMail({
+      from: config.FROM,
+      to: username, // An array if you have multiple recipients.
+      subject: 'Booking Reminder!!!',
+      // 'h:Reply-To': 'reply2this@company.com',
+      // //You can use "html:" to send HTML email content. It's magic!
+      html: '<p>Your next trip is just around the corner. This is just a friendly reminder to make sure everything is booked.</p>',
+      //You can use "text:" to send plain-text content. It's oldschool!
+      text: 'Mailgun rocks, pow pow!'
+    }, function (err, info) {
+      if (err) {
+        console.log('Error: ' + err);
+      }
+      else {
+        console.log('Response: ' + info);
       }
     });
   }

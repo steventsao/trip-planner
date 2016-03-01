@@ -1,5 +1,6 @@
 var Trip = require('./tripModel.js');
 
+
 module.exports = {
 
   //creates a trip for our Trip Model

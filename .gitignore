@@ -28,5 +28,7 @@ dist/
 node_modules/
 bower_components/
 
+
 #API Keys
 _config.js
+server/notification_service/_config.js
