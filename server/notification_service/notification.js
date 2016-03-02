@@ -6,6 +6,9 @@ var Trips = require('../trips/tripModel.js');
 
 module.exports = {
   
+  /* return trips that start within a certain period of time
+     send reminders for those trips
+  */
   getTripsForReminder: function(res){
     // var twisted = function(res){
     //   return function(err, data){

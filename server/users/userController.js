@@ -10,19 +10,17 @@ var config = require('../notification_service/_config.js')
 
 module.exports = {
 
+  /* create new user and store to database 
+     returns jwt for site authentication 
+  */
   signup: function(req, res) {
     var newUser = Users({
-      username: req.body.username,
-      // leave password outside to call newUser's method after instantiation
-      // password: Users.generateHash(req.body.password),
+      username: req.body.username, // leave password outside to call newUser's method after instantiation
     });
+
     newUser.password = newUser.generateHash(req.body.password);
 
-    // newUser.salt = newUser.generateSalt(req.body);
-
-    //sends welcome email
-    Email.signupEmail(newUser.username, config.API_KEY, config.DOMAIN)
-
+    Email.signupEmail(newUser.username, config.API_KEY, config.DOMAIN) //sends welcome email
 
     newUser.save(function(err, user) {
       if (err) {
@@ -37,6 +35,9 @@ module.exports = {
     });
   },
 
+  /* logs in user if exists and password matches
+     returns jwt for site authentication 
+  */
   signin: function(req, res) {
     var userLogin = Users({
       username: req.body.username,
@@ -46,34 +47,6 @@ module.exports = {
 
 
     Email.signinEmail(userLogin.username, config.API_KEY, config.DOMAIN);
-
-
-
-
-    // Trips.find(function(err, trips){
-    //   if(err){
-    //     return console.log(err)
-    //   }
-    //   // var today = new Date();
-    //   // var todayDate = today.getDate()
-    //   // var todayMonth = today.getMonth() + 1
-    //   // var todayYear = today.getFullYear()
-    //   // var todayProper = todayMonth + '/' + todayDate + '/' + todayYear
-    //   // console.log('todayProper', todayProper)
-    //   var result = []
-    //   trips.forEach(function(trip){
-    //     if(trip.startDate){
-    //       console.log('trip.startDate', trip.startDate)
-    //       var reminderDate = moment(trip.startDate).subtract(14, 'days').calendar();
-    //       console.log('reminderDate', reminderDate)
-    //       if(reminderDate === 'Today at 12:00 AM'){
-    //         console.log('YESSSSSS')
-    //         result.push(trip)
-    //       }
-    //     }
-    //   })
-    //   return result
-    // });
 
     Users.findOne({
       'username': userLogin.username
@@ -94,15 +67,16 @@ module.exports = {
                 'id': user._id
               });
             })
-        } else {
-          // if user is found, but password doesn't match
+        } else { // if user is found, but password doesn't match
           res.send('Incorrect Password');
         }
       }
     })
   },
 
-  // removes user and all associated trips
+  /* removes user and all associated trips from database
+     called from profile page
+  */
   removeUser: function(req, res) {
     Users.remove({
       'username': req.decoded.username
@@ -115,6 +89,9 @@ module.exports = {
       })
   },
 
+  /* updates user password
+     called from profile page
+  */
   changePassword: function(req, res) {
     var userLogin = Users({
       username: req.decoded.username,
@@ -141,8 +118,11 @@ module.exports = {
     })
   },
 
-  // @req.body expects an user _id for reference to Trips schema
-  // this should be moved over to the trip controller on refactor
+  /* returns all trips for a given user (logged in user) for rendering in trips view
+     
+     REFACTOR? @req.body expects an user _id for reference to Trips schema
+     this should be moved over to the trip controller on refactor
+  */
   alltrips: function(req, res) {
     var tripArr;
     Trips.find({
@@ -158,7 +138,7 @@ module.exports = {
       })
   },
 
-  // loads the user email for the profile page
+  /* loads the user email for the profile page */
   getUser: function(req, res) {
     res.send(req.decoded.username);
   }

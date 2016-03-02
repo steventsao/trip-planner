@@ -23,6 +23,12 @@ angular.module('app.new-trip', [])
     zoom: 5
   };
 
+  /* creates map where trip markers are rendered 
+     to specifications laid out in mapOptions above 
+  */
+  $scope.map = new google.maps.Map(document.getElementById("mapDiv"), mapOptions);
+
+
   /* creates google maps marker for destination data
      called when destination information is changed, either by dropped pin
      or changed address in text input bar
@@ -36,8 +42,9 @@ angular.module('app.new-trip', [])
 
     $scope.map;
 
-  //var coordinates = {}; // where is this used?
-
+    /* creates new google maps marker, which is bound to scope and reset 
+       each time location is changed 
+    */
     var marker = new google.maps.Marker({
       map: $scope.map,
       position: info.coordinates,
@@ -46,10 +53,7 @@ angular.module('app.new-trip', [])
     });
 
     $scope.marker = marker; // sets marker on scope, so we have access to info and can remove
-
-    $scope.map = new google.maps.Map(document.getElementById("mapDiv"), mapOptions);
-    $scope.destination;
-    $scope.marker = null;
+    $scope.destination; // used to store current destination specified by dropped pin or by autocompleted location
 
     /* adds info window on marker which displays location informition
        opens when marker is clicked 
@@ -67,15 +71,9 @@ angular.module('app.new-trip', [])
 
   };
 
-  var input = (document.getElementById('destination'));
-  var autocomplete = new google.maps.places.Autocomplete(input); // creates 
-  autocomplete.bindTo('bounds', $scope.map);
-
-  
-  // var marker = new google.maps.Marker({
-  //   map: $scope.map,
-  //   anchorPoint: new google.maps.Point(0, -29)
-  // });
+  var input = (document.getElementById('destination')); // assigns user input in destination div and passed to autocomplete 
+  var autocomplete = new google.maps.places.Autocomplete(input); // creates new google maps autocomplete 
+  autocomplete.bindTo('bounds', $scope.map); // binds autocomplete to scope map
 
 
   /* map listens for a change in input box ($scope.destination), renders 
@@ -84,16 +82,15 @@ angular.module('app.new-trip', [])
   */
   autocomplete.addListener('place_changed', function() {
 
-    if ($scope.marker) { 
-      $scope.marker.infowindow.close();
-      $scope.marker.setMap(null); 
+    if ($scope.marker) { // if a marker already exisits (from autocomplete or dropped pin)
+      $scope.marker.infowindow.close(); // closes info window
+      $scope.marker.setMap(null);  // and removes marker from map
     }
-    marker.setVisible(false);
 
     var place = autocomplete.getPlace();
 
     if (!place.geometry) {
-      Materialize.toast("Autocomplete's returned place contains no geometry" + $scope.thisTrip.destination, 5000, 'rounded');
+      Materialize.toast("Autocomplete's returned place contains no geometry", 5000, 'rounded');
       return;
     }
     
@@ -104,7 +101,7 @@ angular.module('app.new-trip', [])
       $scope.map.setZoom(17);  // zooms map. Why 17? Because it looks good.
     }
 
-    /* standardized formatting for location information to pass into createMarker */
+    /* our standardized formatting for location information to pass into createMarker */
     var info = {
       _id: null,
       coordinates: {},
@@ -122,12 +119,13 @@ angular.module('app.new-trip', [])
     $scope.destinaiton = info.destination;    
   });
 
+
   /* map listens for a click and renders a marker and returns corresponding address 
      retrieves location information from google based on dropped pin
   */
   $scope.map.addListener('click', function(e) {
 
-    /* standardized formatting for location information to pass into createMarker */
+    /* our standardized formatting for location information to pass into createMarker */
     var info = {
       _id: null,
       coordinates: null,
@@ -139,8 +137,9 @@ angular.module('app.new-trip', [])
 
     /* retrieves location information from google via get request based on dropped pin */
     $.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + e.latLng.lat() + "," + e.latLng.lng() + "&key=AIzaSyCXPMP0KsMOdfwehnmOUwu-W3VOK92CkwI", function(data) {
+      console.log(data);
       if (data.status === 'ZERO_RESULTS'){ // if google cannot return a location......................
-        Materialize.toast("Please click on land!" + $scope.thisTrip.destination, 5000, 'rounded'); // displays alert to user
+        Materialize.toast("Please click on land!", 5000, 'rounded'); // displays alert to user
       } else {
         info.coordinates = data.results[0].geometry.location;
         info.destination = data.results[1].formatted_address;
@@ -156,6 +155,7 @@ angular.module('app.new-trip', [])
     });
   });
   
+
   /*
      creates a new trip with the last location input by user
      redirects to newly created trip (my-trip view)
@@ -173,6 +173,7 @@ angular.module('app.new-trip', [])
   */
   $scope.submitForm = function () {
     Trips.newTrip($scope.info.destination, $scope.startDate, $scope.info.coordinates, function(id) {
+      console.log($scope.startDate);
       console.log(id);
       $scope.info._id = id;
     });

@@ -101,7 +101,7 @@ angular.module('app.my-trip', [])
   */
   $scope.map = new google.maps.Map(document.getElementById("mapDiv"), mapOptions);
 
-  /*  */
+  /* returns single trip corresponding to navigated view */
   $scope.getTrip = function () {
     Trips.accessTrip($scope.path)
       .then(function (data) {

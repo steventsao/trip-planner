@@ -1,17 +1,18 @@
 angular.module('app.trips', [])
 
 .controller('tripsController', function($scope, Trips, $routeParams, $route, Auth) {
+  
   $scope.trips = {};
-
   $scope.map;
-  //$scope.geocoder = new google.maps.Geocoder();
   $scope.destination;
-  var coordinates = {};
 
   $scope.tripID = {
     id: $routeParams.id
   };
 
+  /* retrieves all user trips from factory
+     and binds to scope for list diplay on trips page
+  */
   $scope.showTrips = function(user) {
     Trips.allTrips(user)
       .then(function(data) {
@@ -19,10 +20,16 @@ angular.module('app.trips', [])
       });
   };
 
+  /* called when trip on list view is hovered over
+     shows delete icon, which will delete the current trip (hovered trip)
+  */
   $scope.hover = function(trip) {
     return trip.showDelete = ! trip.showDelete;
   };
 
+  /*
+    creates content for 
+  */
   var createContent = function(info) {
     var string = '';
     if (info.POI.length > 0) {
@@ -34,22 +41,18 @@ angular.module('app.trips', [])
     return string;
   };
 
+  /* creates google maps marker for passed in trip info
+
+     more on google maps markers: https://developers.google.com/maps/documentation/javascript/markers
+  */
   var createMarker = function(info) {
     $scope.destination = info.destination;
+   
     var marker = new google.maps.Marker({
       map: $scope.map,
       position: info.coordinates,
       destination: info.destination,
       animation: google.maps.Animation.DROP,
-    });
-    marker.addListener('dblclick', function() {
-      var deleteCheck = confirm('are you sure you want to delete?');
-      if (deleteCheck) {
-        Trips.removeTrip(info);
-        marker.setMap(null);
-        $scope.showTrips();
-      }
-
     });
 
     var infowindow = new google.maps.InfoWindow({
@@ -57,19 +60,24 @@ angular.module('app.trips', [])
         createContent(info),
       disableAutoPan: true,
     });
-    marker.addListener('mouseover', function() {
+
+    marker.addListener('mouseover', function() { // trip infowindow opens on corresponding map marker hover
       infowindow.open(marker.get('map'), marker);
     });
-     marker.addListener('mouseout', function() {
+
+     marker.addListener('mouseout', function() { // infowindow closes
       infowindow.close();
     });
-     marker.addListener('click', function() {
+
+     marker.addListener('click', function() { // on trip marker click, goes to corresponding my-trip view
       window.location= '#/my-trip/' + info._id;
     });
   };
 
+  /* renders all trip markers on map */
   $scope.showTripsOnMap = function(user) {
     console.log('hi')
+    console.log()
     Trips.allTrips(user)
       .then(function(data) {
         $scope.trips = data;
@@ -79,6 +87,7 @@ angular.module('app.trips', [])
       });
   };
 
+  /* run on page load so trip data is viewable on map */
   $scope.showTripsOnMap(Trips.user);
 
   /* 
@@ -106,6 +115,9 @@ angular.module('app.trips', [])
 
   /* parses date value on trip in  user trips and filters by date, showing 
      trips with dates BEFORE the current date
+     
+     BUG NEEDS FIXING - trips created for past dates do not render in list view
+     for january dates....
   */
   $scope.previousTrips = function(tripDate) {
     var tripsDate = new Date(tripDate);

@@ -7,34 +7,32 @@ var yelp = new Yelp({
   token_secret: '0j69oXI2k2Jnd1Dk7TyMeSKVvQo',
 });
  
+/* returns results from yelp matching user input */
 exports.getPOI = function (req, res) {
-  console.log(req.query);
-  console.log(req.params.city.replace('_',' '));
   yelp.search({ term: req.query.userInput, location: req.params.city.replace('_',' ') })
   .then(function (data) {
     res.send(data);
-    // console.log(data);
   })
   .catch(function (err) {
     console.error(err);
   });
 }
 
-exports.getOverlay = function(req, res) {
-    console.log(req.body.location);
-    // request is a rectangle
-    if (req.body.location.length < 5) {
+/* returns results for queries using google drawing manager */
+exports.getOverlay = function (req, res) {
+
+    if (req.body.location.length < 5) { // request is a rectangle
       yelp.search({
           bounds: req.body.location[0] + ',' + req.body.location[1] +
             '|' + req.body.location[2] + ',' + req.body.location[3],
           sort: 1,
           term: 'tourist attraction'
         })
-        .then(function(data) {
+        .then(function (data) {
           // console.log(data);
           res.status(200).send(data);
         })
-        .catch(function(err) {
+        .catch(function (err) {
           console.error(err);
         })
     } else {
@@ -78,7 +76,7 @@ exports.getOverlay = function(req, res) {
             .catch(function(err) {
               console.error(err);
             });
-        })
+        });
         // Promise.all(promiseArr)
         //   .then(function(vals) {
         //     console.log('all good')
@@ -90,7 +88,7 @@ exports.getOverlay = function(req, res) {
         //   })
     }
 
-  }
+};
   // See http://www.yelp.com/developers/documentation/v2/search_api
 
 // See http://www.yelp.com/developers/documentation/v2/business
