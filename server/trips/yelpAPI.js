@@ -1,10 +1,12 @@
 var Yelp = require('yelp');
 
+// Please register for a Yelp API Key @: 
+// https://www.yelp.com/developers/documentation/v2/overview
 var yelp = new Yelp({
-  consumer_key: 'nRkFoued97iTDSmA0j4sJA',
-  consumer_secret: '84oo6Wz9Llfcmd5E8mxbba9390k',
-  token: 'V6IBAABe7ksj-pO1OLDkIN-b7q6H1aFs',
-  token_secret: '0j69oXI2k2Jnd1Dk7TyMeSKVvQo',
+  consumer_key: null,
+  consumer_secret: null,
+  token: null,
+  token_secret: null,
 });
  
 /* returns results from yelp matching user input */

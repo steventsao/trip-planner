@@ -134,9 +134,9 @@ angular.module('app.new-trip', [])
       googleplace: null,
       POI: [],
     };
-
+    // TODO: Please get a Google API key @ https://developers.google.com/maps/
     /* retrieves location information from google via get request based on dropped pin */
-    $.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + e.latLng.lat() + "," + e.latLng.lng() + "&key=AIzaSyCXPMP0KsMOdfwehnmOUwu-W3VOK92CkwI", function(data) {
+    $.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + e.latLng.lat() + "," + e.latLng.lng() + "****GOOGLE MAPS API******", function(data) {
       console.log(data);
       if (data.status === 'ZERO_RESULTS'){ // if google cannot return a location......................
         Materialize.toast("Please click on land!", 5000, 'rounded'); // displays alert to user
