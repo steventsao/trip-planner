@@ -1,17 +1,11 @@
-# Project Name
-
-Trip Planner (TP)
-
-TP helps you organize and plan your next vacation. We help you take care of everything you need to have a more satisfying go.
-
-## Team
-
-  - __Product Owner__: Elizabeth Sciortino
-  - __Scrum Master__: Tim Dang
-  - __Development Team Members__: Fanny Vasquez Steven Tsao Tyler Cookson
+# About
+Trip Planner helps you organize and plan your next vacation. 
+You can:
++ Search for attractions on your destination
++ Annotate your map to visualize your routes
++ Organize your notes on a dedicated calendar
 
 ## Table of Contents
-
 1. [Usage](#Usage)
 1. [Requirements](#requirements)
 1. [Development](#development)
@@ -20,8 +14,7 @@ TP helps you organize and plan your next vacation. We help you take care of ever
 1. [Team](#team)
 1. [Contributing](#contributing)
 
-## Usage
-
+## Tech
 TP is a Single Page Application that runs on MongoDB Express JS Angular JS and Node JS. The entry point to start the site is by running:
 
 ```sh
@@ -29,7 +22,6 @@ node server/server.js
 ```
 
 ## Requirements
-
 - Node 0.10.x
 - angular: 1.5.0
 - angular-ui-router: 0.2.18
