@@ -1,5 +1,5 @@
 # About
-Trip Planner helps you organize and plan your next vacation. 
+[Trip Planner](http://tripplanner.ninja/) helps you organize and plan your next vacation. 
 You can:
 + Search for attractions on your destination
 + Annotate your map to visualize your routes
