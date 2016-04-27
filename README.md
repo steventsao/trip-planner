@@ -66,7 +66,3 @@ View the project roadmap [here](https://github.com/HRR13-Cobra/HRR13-Cobra/issue
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
-
-@git-commands
-git pull --rebase upstream stage
-git pull --rebase upstream yourbranchhere
